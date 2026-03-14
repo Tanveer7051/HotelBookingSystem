@@ -1,13 +1,16 @@
 package com.booking.HotelBooking.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 @Entity
 @Table(name="userTable")
 public class User {
@@ -22,6 +25,7 @@ public class User {
     @NotBlank(message = "Last name is required")
     private String userLast_name;
 
+    @Column(unique = true)
     @Email(message = "Invalid email format")
     @NotBlank(message = "Email is required")
     private String userEmail;
@@ -37,10 +41,15 @@ public class User {
     private Role role=Role.USER;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Booking> booking = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Review> review = new ArrayList<>();
+
+    public User() {
+    }
 
     public User(Long userId, String userFirst_name, String userLast_name, String userEmail, String userAddress, String userPassword, Role role, List<Booking> booking, List<Review> review) {
         this.userId = userId;
@@ -53,81 +62,4 @@ public class User {
         this.booking = booking;
         this.review = review;
     }
-
-    public User() {
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getUserFirst_name() {
-        return userFirst_name;
-    }
-
-    public void setUserFirst_name(String userFirst_name) {
-        this.userFirst_name = userFirst_name;
-    }
-
-    public String getUserLast_name() {
-        return userLast_name;
-    }
-
-    public void setUserLast_name(String userLast_name) {
-        this.userLast_name = userLast_name;
-    }
-
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
-    public String getUserAddress() {
-        return userAddress;
-    }
-
-    public void setUserAddress(String userAddress) {
-        this.userAddress = userAddress;
-    }
-
-    public String getUserPassword() {
-        return userPassword;
-    }
-
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public List<Booking> getBooking() {
-        return booking;
-    }
-
-    public void setBooking(List<Booking> booking) {
-        this.booking = booking;
-    }
-
-    public List<Review> getReview() {
-        return review;
-    }
-
-    public void setReview(List<Review> review) {
-        this.review = review;
-    }
-
-
 }

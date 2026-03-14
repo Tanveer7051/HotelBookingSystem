@@ -1,14 +1,17 @@
 package com.booking.HotelBooking.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 @Entity
 @Table(name="roomTable")
 public class Room {
@@ -44,9 +47,11 @@ public class Room {
 
     @ManyToOne
     @JoinColumn(name="hotelId")
+    @JsonIgnore
     private Hotel hotel;
 
-    @OneToMany(mappedBy = "rooms")
+    @OneToMany(mappedBy = "room")
+    @JsonIgnore
     private List<Booking> booking = new ArrayList<>();
 
     public Room() {
@@ -64,102 +69,6 @@ public class Room {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.hotel = hotel;
-        this.booking = booking;
-    }
-
-    public Long getRoomId() {
-        return roomId;
-    }
-
-    public void setRoomId(Long roomId) {
-        this.roomId = roomId;
-    }
-
-    public String getRoomNumber() {
-        return roomNumber;
-    }
-
-    public void setRoomNumber(String roomNumber) {
-        this.roomNumber = roomNumber;
-    }
-
-    public String getRoomType() {
-        return roomType;
-    }
-
-    public void setRoomType(String roomType) {
-        this.roomType = roomType;
-    }
-
-    public Double getPricePerNight() {
-        return pricePerNight;
-    }
-
-    public void setPricePerNight(Double pricePerNight) {
-        this.pricePerNight = pricePerNight;
-    }
-
-    public Integer getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(Integer capacity) {
-        this.capacity = capacity;
-    }
-
-    public String getBedType() {
-        return bedType;
-    }
-
-    public void setBedType(String bedType) {
-        this.bedType = bedType;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getAvailabilityStatus() {
-        return availabilityStatus;
-    }
-
-    public void setAvailabilityStatus(String availabilityStatus) {
-        this.availabilityStatus = availabilityStatus;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Hotel getHotel() {
-        return hotel;
-    }
-
-    public void setHotel(Hotel hotel) {
-        this.hotel = hotel;
-    }
-
-    public List<Booking> getBooking() {
-        return booking;
-    }
-
-    public void setBooking(List<Booking> booking) {
         this.booking = booking;
     }
 }

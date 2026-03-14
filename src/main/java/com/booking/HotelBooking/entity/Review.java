@@ -1,14 +1,17 @@
 package com.booking.HotelBooking.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
+@Data
 @Entity
 @Table(name="reviewTable")
 public class Review {
@@ -31,79 +34,25 @@ public class Review {
     private LocalDateTime updatedAt;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name="userId")
     private User user;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name="hotelId")
     private Hotel hotel;
 
     public Review() {
     }
 
-    public Review(LocalDateTime updatedAt, Long reviewId, Double rating, String comment, LocalDateTime createdAt, User user, Hotel hotel) {
-        this.updatedAt = updatedAt;
+    public Review(Long reviewId, Double rating, String comment, LocalDateTime createdAt, LocalDateTime updatedAt, User user, Hotel hotel) {
         this.reviewId = reviewId;
         this.rating = rating;
         this.comment = comment;
         this.createdAt = createdAt;
-        this.user = user;
-        this.hotel = hotel;
-    }
-
-    public Long getReviewId() {
-        return reviewId;
-    }
-
-    public void setReviewId(Long reviewId) {
-        this.reviewId = reviewId;
-    }
-
-    public Double getRating() {
-        return rating;
-    }
-
-    public void setRating(Double rating) {
-        this.rating = rating;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
         this.user = user;
-    }
-
-    public Hotel getHotel() {
-        return hotel;
-    }
-
-    public void setHotel(Hotel hotel) {
         this.hotel = hotel;
     }
 }

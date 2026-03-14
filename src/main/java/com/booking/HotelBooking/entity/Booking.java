@@ -3,20 +3,23 @@ package com.booking.HotelBooking.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
+@Data
 @Entity
-@Table(name="bookingTable")
+@Table(name = "bookings")
 public class Booking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long bookingId;
+    private Long id;
 
     @NotNull(message = "Check-in date required")
     private LocalDate checkInDate;
@@ -26,13 +29,11 @@ public class Booking {
 
     @NotNull(message = "Total price required")
     @Positive(message = "Price must be positive")
-    private Double totalPrice;
+    private BigDecimal totalPrice;
 
+    @Enumerated(EnumType.STRING)
     @NotNull(message = "Booking status required")
-    private String bookingStatus;
-
-    @NotNull(message = "Payment status required")
-    private String paymentStatus;
+    private BookingStatus bookingStatus= BookingStatus.PENDING;
 
     @NotNull(message = "Number of guests required")
     @Positive(message = "Guests must be at least 1")
@@ -47,126 +48,28 @@ public class Booking {
     private LocalDateTime updatedAt;
 
     @ManyToOne
-    @JoinColumn(name="userId")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name="roomId")
-    private Room rooms;
+    @JoinColumn(name = "room_id")
+    private Room room;
 
     public Booking() {
     }
 
-    public Booking(Long bookingId, LocalDate checkInDate, LocalDate checkOutDate, Double totalPrice, String bookingStatus, String paymentStatus, Integer numberOfGuests, String specialRequests, LocalDateTime createdAt, LocalDateTime updatedAt, User user, Room room) {
-        this.bookingId = bookingId;
+    public Booking(Long id, LocalDate checkInDate, LocalDate checkOutDate, BigDecimal totalPrice, BookingStatus bookingStatus, Integer numberOfGuests, String specialRequests, LocalDateTime createdAt, LocalDateTime updatedAt, User user, Room room) {
+        this.id = id;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.totalPrice = totalPrice;
         this.bookingStatus = bookingStatus;
-        this.paymentStatus = paymentStatus;
         this.numberOfGuests = numberOfGuests;
         this.specialRequests = specialRequests;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.user = user;
-        this.rooms = room;
+        this.room = room;
     }
-
-    public Long getBookingId() {
-        return bookingId;
-    }
-
-    public void setBookingId(Long bookingId) {
-        this.bookingId = bookingId;
-    }
-
-    public LocalDate getCheckInDate() {
-        return checkInDate;
-    }
-
-    public void setCheckInDate(LocalDate checkInDate) {
-        this.checkInDate = checkInDate;
-    }
-
-    public LocalDate getCheckOutDate() {
-        return checkOutDate;
-    }
-
-    public void setCheckOutDate(LocalDate checkOutDate) {
-        this.checkOutDate = checkOutDate;
-    }
-
-    public Double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public String getBookingStatus() {
-        return bookingStatus;
-    }
-
-    public void setBookingStatus(String bookingStatus) {
-        this.bookingStatus = bookingStatus;
-    }
-
-    public String getPaymentStatus() {
-        return paymentStatus;
-    }
-
-    public void setPaymentStatus(String paymentStatus) {
-        this.paymentStatus = paymentStatus;
-    }
-
-    public Integer getNumberOfGuests() {
-        return numberOfGuests;
-    }
-
-    public void setNumberOfGuests(Integer numberOfGuests) {
-        this.numberOfGuests = numberOfGuests;
-    }
-
-    public String getSpecialRequests() {
-        return specialRequests;
-    }
-
-    public void setSpecialRequests(String specialRequests) {
-        this.specialRequests = specialRequests;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Room getRooms() {
-        return rooms;
-    }
-
-    public void setRooms(Room rooms) {
-        this.rooms = rooms;
-    }
-
 
 }
